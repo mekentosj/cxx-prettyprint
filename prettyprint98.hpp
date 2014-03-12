@@ -13,10 +13,8 @@
 #include <iterator>
 #include <set>
 
-#ifndef NO_TR1
-#  include <tr1/tuple>
-#  include <tr1/unordered_set>
-#endif
+#include <tuple>
+#include <unordered_set>
 
 namespace pretty_print
 {
@@ -134,28 +132,28 @@ namespace pretty_print
 
 #ifndef NO_TR1
     template<typename T, typename THash, typename TEqual, typename TAllocator>
-    struct delimiters< ::std::tr1::unordered_set<T, THash, TEqual, TAllocator>, char> { static const delimiters_values<char> values; };
+    struct delimiters< std::unordered_set<T, THash, TEqual, TAllocator>, char> { static const delimiters_values<char> values; };
 
     template<typename T, typename THash, typename TEqual, typename TAllocator>
-    const delimiters_values<char> delimiters< ::std::tr1::unordered_set<T, THash, TEqual, TAllocator>, char>::values = { "{", ", ", "}" };
+    const delimiters_values<char> delimiters< std::unordered_set<T, THash, TEqual, TAllocator>, char>::values = { "{", ", ", "}" };
 
     template<typename T, typename THash, typename TEqual, typename TAllocator>
-    struct delimiters< ::std::tr1::unordered_set<T, THash, TEqual, TAllocator>, wchar_t> { static const delimiters_values<wchar_t> values; };
+    struct delimiters< std::unordered_set<T, THash, TEqual, TAllocator>, wchar_t> { static const delimiters_values<wchar_t> values; };
 
     template<typename T, typename THash, typename TEqual, typename TAllocator>
-    const delimiters_values<wchar_t> delimiters< ::std::tr1::unordered_set<T, THash, TEqual, TAllocator>, wchar_t>::values = { L"{", L", ", L"}" };
+    const delimiters_values<wchar_t> delimiters< std::unordered_set<T, THash, TEqual, TAllocator>, wchar_t>::values = { L"{", L", ", L"}" };
 
     template<typename T, typename THash, typename TEqual, typename TAllocator>
-    struct delimiters< ::std::tr1::unordered_multiset<T, THash, TEqual, TAllocator>, char> { static const delimiters_values<char> values; };
+    struct delimiters< ::std::unordered_multiset<T, THash, TEqual, TAllocator>, char> { static const delimiters_values<char> values; };
 
     template<typename T, typename THash, typename TEqual, typename TAllocator>
-    const delimiters_values<char> delimiters< ::std::tr1::unordered_multiset<T, THash, TEqual, TAllocator>, char>::values = { "{", ", ", "}" };
+    const delimiters_values<char> delimiters< ::std::unordered_multiset<T, THash, TEqual, TAllocator>, char>::values = { "{", ", ", "}" };
 
     template<typename T, typename THash, typename TEqual, typename TAllocator>
-    struct delimiters< ::std::tr1::unordered_multiset<T, THash, TEqual, TAllocator>, wchar_t> { static const delimiters_values<wchar_t> values; };
+    struct delimiters< ::std::unordered_multiset<T, THash, TEqual, TAllocator>, wchar_t> { static const delimiters_values<wchar_t> values; };
 
     template<typename T, typename THash, typename TEqual, typename TAllocator>
-    const delimiters_values<wchar_t> delimiters< ::std::tr1::unordered_multiset<T, THash, TEqual, TAllocator>, wchar_t>::values = { L"{", L", ", L"}" };
+    const delimiters_values<wchar_t> delimiters< ::std::unordered_multiset<T, THash, TEqual, TAllocator>, wchar_t>::values = { L"{", L", ", L"}" };
 #endif
 
 
@@ -334,7 +332,7 @@ namespace pretty_print
             if (delimiters<tuple_dummy_pair, TChar>::values.delimiter != NULL)
                 stream << delimiters<tuple_dummy_pair, TChar>::values.delimiter;
 
-            stream << std::tr1::get<N - 1>(value);
+            stream << std::get<N - 1>(value);
         }
     };
 
@@ -343,7 +341,7 @@ namespace pretty_print
     {
         static inline void print(::std::basic_ostream<TChar, TCharTraits> & stream, const Tuple & value)
         {
-            stream << ::std::tr1::get<0>(value);
+            stream << ::std::get<0>(value);
         }
     };
 } // namespace pretty_print
@@ -363,12 +361,12 @@ namespace pretty_print
 namespace std
 {
     template<typename TChar, typename TCharTraits, TUPLE_PARAMS>
-    inline basic_ostream<TChar, TCharTraits> & operator<<(basic_ostream<TChar, TCharTraits> & stream, const tr1::tuple<TUPLE_ARGS> & value)
+    inline basic_ostream<TChar, TCharTraits> & operator<<(basic_ostream<TChar, TCharTraits> & stream, const tuple<TUPLE_ARGS> & value)
     {
         if (::pretty_print::delimiters< ::pretty_print::tuple_dummy_pair, TChar>::values.prefix != NULL)
             stream << ::pretty_print::delimiters< ::pretty_print::tuple_dummy_pair, TChar>::values.prefix;
 
-        ::pretty_print::pretty_tuple_helper<const tr1::tuple<TUPLE_ARGS> &, tr1::tuple_size<tr1::tuple<TUPLE_ARGS> >::value, TChar, TCharTraits>::print(stream, value);
+        ::pretty_print::pretty_tuple_helper<const tuple<TUPLE_ARGS> &, tuple_size<tuple<TUPLE_ARGS> >::value, TChar, TCharTraits>::print(stream, value);
 
         if (::pretty_print::delimiters< ::pretty_print::tuple_dummy_pair, TChar>::values.postfix != NULL)
             stream << ::pretty_print::delimiters< ::pretty_print::tuple_dummy_pair, TChar>::values.postfix;
